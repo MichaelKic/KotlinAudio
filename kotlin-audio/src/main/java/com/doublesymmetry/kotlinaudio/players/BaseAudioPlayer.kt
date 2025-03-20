@@ -531,7 +531,29 @@ abstract class BaseAudioPlayer internal constructor(
     }
 
     private fun requestAudioFocus() {
-        hasAudioFocus = true
+        if (hasAudioFocus) return
+        Timber.d("Requesting audio focus...")
+
+        val manager = ContextCompat.getSystemService(context, AudioManager::class.java)
+
+        focus = AudioFocusRequestCompat.Builder(AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+            .setOnAudioFocusChangeListener(this)
+            .setAudioAttributes(
+                AudioAttributesCompat.Builder()
+                    .setUsage(USAGE_MEDIA)
+                    .setContentType(CONTENT_TYPE_MUSIC)
+                    .build()
+            )
+            .setWillPauseWhenDucked(playerOptions.alwaysPauseOnInterruption)
+            .build()
+
+        val result: Int = if (manager != null && focus != null) {
+            AudioManagerCompat.requestAudioFocus(manager, focus!!)
+        } else {
+            AudioManager.AUDIOFOCUS_REQUEST_FAILED
+        }
+
+        hasAudioFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
     }
 
     private fun abandonAudioFocusIfHeld() {
