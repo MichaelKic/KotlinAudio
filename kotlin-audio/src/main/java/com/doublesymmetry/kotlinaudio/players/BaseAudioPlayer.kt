@@ -15,7 +15,7 @@ import androidx.media.AudioAttributesCompat.CONTENT_TYPE_MUSIC
 import androidx.media.AudioAttributesCompat.USAGE_MEDIA
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
-import androidx.media.AudioManagerCompat.AUDIOFOCUS_NONE
+import androidx.media.AudioManagerCompat.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
 import com.doublesymmetry.kotlinaudio.event.EventHolder
 import com.doublesymmetry.kotlinaudio.event.NotificationEventHolder
 import com.doublesymmetry.kotlinaudio.event.PlayerEventHolder
